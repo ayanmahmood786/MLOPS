@@ -1,6 +1,0 @@
-2025-10-14 15:54:44.450 | INFO     | api:<module>:14 - Logger initialized
-2025-10-14 15:54:47.171 | INFO     | api:<module>:21 - Log-viewer started on http://localhost:9000
-2025-10-14 15:54:47.210 | INFO     | api:startup_event:50 - FastAPI application started
-2025-10-14 15:57:33.757 | INFO     | api:<module>:14 - Logger initialized
-2025-10-14 15:57:33.860 | INFO     | api:<module>:21 - Log-viewer started on http://localhost:9000
-2025-10-14 15:57:33.866 | INFO     | api:startup_event:50 - FastAPI application started
