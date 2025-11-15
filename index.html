@@ -1,0 +1,375 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Dashboard</title>
+    <link href="https://cdn.tailwindcss.com?plugins=forms,container-queries" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 dark:bg-slate-900">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 bg-white dark:bg-slate-800 shadow-md">
+        <div class="container mx-auto p-4 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-indigo-600">Supplier Dashboard</h1>
+            <button id="darkModeToggle"
+        class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-full p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor" class="w-6 h-6 text-slate-700 dark:text-slate-300">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25c0 5.385 4.365 9.75 9.75 9.75a9.72 9.72 0 006.752-2.248z" />
+        </svg>
+      </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto">
+        <div class="p-4 sm:p-6 lg:p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+
+            <!-- KBI Cards -->
+            <div
+                class="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 text-indigo-600 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512m0 13.534A8.967 8.967 0 0118 20.25c1.052 0 2.062-.18 3-.512m-15.042-1.44a3.004 3.004 0 00-.012.013c.159.986.92 1.848 2.034 2.408A9.523 9.523 0 006 18.75c1.052 0 2.062-.18 3-.512m0-13.534c-1.052 0-2.062.18-3 .512a9.523 9.523 0 00-2.034-2.408 3.004 3.004 0 00.012-.013m7.086 1.44a3.004 3.004 0 00.012-.013c-.159-.986-.92-1.848-2.034-2.408A9.523 9.523 0 0018 5.25c-1.052 0-2.062.18-3 .512m0 13.534c1.052 0 2.062-.18 3-.512a9.523 9.523 0 002.034 2.408 3.004 3.004 0 00-.012.013" />
+                    </svg>
+                    <h2 class="text-sm text-slate-500 dark:text-slate-400">Total Bill Amount</h2>
+                </div>
+                <p id="totalBillAmountKBI" class="text-3xl font-bold"></p>
+            </div>
+
+            <div
+                class="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 text-indigo-600 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 13.125C3 12.504 3.621 11.875 4.25 11.875h15.5c.629 0 1.25.621 1.25 1.25v2.5c0 .629-.621 1.25-1.25 1.25H4.25a1.25 1.25 0 01-1.25-1.25v-2.5z" />
+                    </svg>
+
+                    <h2 class="text-sm text-slate-500 dark:text-slate-400">Total Quantity Accepted</h2>
+                </div>
+                <p id="totalQuantityAcceptedKBI" class="text-3xl font-bold"></p>
+            </div>
+
+            <div
+                class="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 text-indigo-600 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 21a9.004 9.004 0 008.716-4.037m-7.32 7.32A5.004 5.004 0 013.284 19.037m11.633 0V5.779a6.002 6.002 0 00-6-6V1.75a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v4.029a6.002 6.002 0 00-6 6v11.25" />
+                    </svg>
+
+                    <h2 class="text-sm text-slate-500 dark:text-slate-400">Total Tax Amount</h2>
+                </div>
+                <p id="totalTaxAmountKBI" class="text-3xl font-bold"></p>
+            </div>
+
+            <div
+                class="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 text-indigo-600 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+                    </svg>
+                    <h2 class="text-sm text-slate-500 dark:text-slate-400">Total Items</h2>
+                </div>
+                <p id="totalItemsKBI" class="text-3xl font-bold"></p>
+            </div>
+
+            <!-- Chart 1: Top 5 Suppliers by Bill Amount -->
+            <div
+                class="lg:col-span-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <h2 class="text-2xl font-bold mb-4">Top 5 Suppliers by Bill Amount</h2>
+                <div class="relative h-80">
+                    <canvas id="topSuppliersChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Supplier Summary - Average Price -->
+            <div
+                class="lg:col-span-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <h2 class="text-2xl font-bold mb-4">Supplier Summary - Average Price</h2>
+                <div class="relative h-80">
+                    <canvas id="supplierSummaryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 3: Currency Summary -->
+            <div
+                class="lg:col-span-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <h2 class="text-2xl font-bold mb-4">Currency Summary</h2>
+                <div class="relative h-80">
+                    <canvas id="currencySummaryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 4: Company Summary -->
+            <div
+                class="lg:col-span-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-400 p-4">
+                <h2 class="text-2xl font-bold mb-4">Company Summary</h2>
+                <div class="relative h-80">
+                    <canvas id="companySummaryChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Function to get computed style for dark mode compatibility
+    function getStyle(element, property) {
+      return window.getComputedStyle(element).getPropertyValue(property);
+    }
+
+    // Helper function to create charts with error handling
+    function createChart(canvasId, config, fallbackMessage = 'Error loading chart.') {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      try {
+        new Chart(ctx.getContext('2d'), config);
+      } catch (e) {
+        // Fallback for visual error reporting
+        ctx.parentElement.innerHTML = `<div class="flex items-center justify-center h-full">
+              <p class="text-slate-500 dark:text-slate-400 p-4">${fallbackMessage}</p>
+            </div>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Dark Mode Toggle
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      darkModeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+      });
+
+      // Data
+      const data = {
+        'top 5 supplier': '[{"SUPPLIER_NAME":"MODTAY CO LTD","Total_Bill_Amount":738772552.2374000549,"Total_Quantity_Accepted":15650197.0,"Total_Line_Value":900137274.6075000763,"Total_Tax_Amount":161714263.5842460096,"Total_Items":13,"Average_Price":53.6887205},{"SUPPLIER_NAME":"MR.BEAUTIFUL","Total_Bill_Amount":202892911.8363999724,"Total_Quantity_Accepted":90182717.0,"Total_Line_Value":245312958.4092000127,"Total_Tax_Amount":43890152.9425359964,"Total_Items":9,"Average_Price":8.6708608182},{"SUPPLIER_NAME":"MERCY ACCRA","Total_Bill_Amount":115686312.2390000075,"Total_Quantity_Accepted":2686978.4729999998,"Total_Line_Value":9044985.2919999994,"Total_Tax_Amount":1624561.183156,"Total_Items":42,"Average_Price":313.5310312386},{"SUPPLIER_NAME":"China Investements","Total_Bill_Amount":96142774.2092999965,"Total_Quantity_Accepted":158943312.5209999979,"Total_Line_Value":96050174.2092999965,"Total_Tax_Amount":0.0,"Total_Items":6,"Average_Price":1100.2282878333},{"SUPPLIER_NAME":"Dubai Exports","Total_Bill_Amount":43693524.1468999982,"Total_Quantity_Accepted":47437626.2100000009,"Total_Line_Value":38533284.1468999982,"Total_Tax_Amount":0.0,"Total_Items":5,"Average_Price":2417.380103}]',
+        'supplier_summary': '[{"SUPPLIER_NAME":"MODTAY CO LTD","Total_Bill_Amount":738772552.2374000549,"Total_Quantity_Accepted":15650197.0,"Total_Line_Value":900137274.6075000763,"Total_Tax_Amount":161714263.5842460096,"Total_Items":13,"Average_Price":53.6887205},{"SUPPLIER_NAME":"MR.BEAUTIFUL","Total_Bill_Amount":202892911.8363999724,"Total_Quantity_Accepted":90182717.0,"Total_Line_Value":245312958.4092000127,"Total_Tax_Amount":43890152.9425359964,"Total_Items":9,"Average_Price":8.6708608182},{"SUPPLIER_NAME":"MERCY ACCRA","Total_Bill_Amount":115686312.2390000075,"Total_Quantity_Accepted":2686978.4729999998,"Total_Line_Value":9044985.2919999994,"Total_Tax_Amount":1624561.183156,"Total_Items":42,"Average_Price":313.5310312386},{"SUPPLIER_NAME":"China Investements","Total_Bill_Amount":96142774.2092999965,"Total_Quantity_Accepted":158943312.5209999979,"Total_Line_Value":96050174.2092999965,"Total_Tax_Amount":0.0,"Total_Items":6,"Average_Price":1100.2282878333},{"SUPPLIER_NAME":"Dubai Exports","Total_Bill_Amount":43693524.1468999982,"Total_Quantity_Accepted":47437626.2100000009,"Total_Line_Value":38533284.1468999982,"Total_Tax_Amount":0.0,"Total_Items":5,"Average_Price":2417.380103},{"SUPPLIER_NAME":"PARADISE COSMETICS","Total_Bill_Amount":13889325.3399,"Total_Quantity_Accepted":1429798.0,"Total_Line_Value":934919.0771999999,"Total_Tax_Amount":167963.581651,"Total_Items":17,"Average_Price":57.1480457},{"SUPPLIER_NAME":"OTTER","Total_Bill_Amount":9347457.0,"Total_Quantity_Accepted":13420.0,"Total_Line_Value":10075469.6239999998,"Total_Tax_Amount":1810113.0825709999,"Total_Items":3,"Average_Price":9846.9654133333},{"SUPPLIER_NAME":"FUEL TRADE","Total_Bill_Amount":5400000.0,"Total_Quantity_Accepted":193000.0,"Total_Line_Value":4368070.0,"Total_Tax_Amount":730604.864644,"Total_Items":3,"Average_Price":140.6666666667},{"SUPPLIER_NAME":"SALIMK SUPS","Total_Bill_Amount":4000000.0,"Total_Quantity_Accepted":1000.0,"Total_Line_Value":2000000.0,"Total_Tax_Amount":359310.910584,"Total_Items":1,"Average_Price":2000.0},{"SUPPLIER_NAME":"Grain Masters Limited","Total_Bill_Amount":3600000.0,"Total_Quantity_Accepted":1000.0,"Total_Line_Value":720000.0,"Total_Tax_Amount":129351.927812,"Total_Items":5,"Average_Price":700.0}]',
+        'currency_summary': '{"1":1099249624.0749001503,"2":147407482.8100000024,"11":14500.0}',
+        'company_summary': '{"01":1246671606.8848998547}'
+      };
+
+      // Parse Data
+      const topSuppliersData = JSON.parse(data['top 5 supplier']);
+      const supplierSummaryData = JSON.parse(data['supplier_summary']);
+      const currencySummaryData = JSON.parse(data['currency_summary']);
+      const companySummaryData = JSON.parse(data['company_summary']);
+
+      // KBI Calculations
+      const totalBillAmount = topSuppliersData.reduce((sum, supplier) => sum + supplier.Total_Bill_Amount, 0);
+      const totalQuantityAccepted = topSuppliersData.reduce((sum, supplier) => sum + supplier.Total_Quantity_Accepted, 0);
+      const totalTaxAmount = topSuppliersData.reduce((sum, supplier) => sum + supplier.Total_Tax_Amount, 0);
+      const totalItems = topSuppliersData.reduce((sum, supplier) => sum + supplier.Total_Items, 0);
+
+      // Update KBI Cards
+      document.getElementById('totalBillAmountKBI').textContent = totalBillAmount.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      document.getElementById('totalQuantityAcceptedKBI').textContent = totalQuantityAccepted.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      document.getElementById('totalTaxAmountKBI').textContent = totalTaxAmount.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      document.getElementById('totalItemsKBI').textContent = totalItems.toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+
+      // Chart Data Mapping
+      const topSupplierLabels = topSuppliersData.map(supplier => supplier.SUPPLIER_NAME);
+      const topSupplierBillAmounts = topSuppliersData.map(supplier => supplier.Total_Bill_Amount);
+
+      const supplierSummaryLabels = supplierSummaryData.map(supplier => supplier.SUPPLIER_NAME);
+      const supplierSummaryAvgPrices = supplierSummaryData.map(supplier => supplier.Average_Price);
+
+      const currencySummaryLabels = Object.keys(currencySummaryData);
+      const currencySummaryValues = Object.values(currencySummaryData);
+
+      const companySummaryLabels = Object.keys(companySummaryData);
+      const companySummaryValues = Object.values(companySummaryData);
+
+      // Get colors from DOM
+      const bodyElement = document.body;
+      const fontColor = getStyle(bodyElement, 'color');
+      const gridColor = getStyle(bodyElement, 'border-color'); // Use border-color for grid lines
+
+
+      // Chart Configurations
+      const topSuppliersChartConfig = {
+        type: 'bar',
+        data: {
+          labels: topSupplierLabels,
+          datasets: [{
+            label: 'Total Bill Amount',
+            data: topSupplierBillAmounts,
+            backgroundColor: 'rgba(79, 70, 229, 0.7)', // indigo-600 with opacity
+            borderColor: 'rgba(79, 70, 229, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: fontColor
+              },
+              grid: {
+                color: gridColor
+              }
+            },
+            x: {
+              ticks: {
+                color: fontColor
+              },
+              grid: {
+                color: gridColor
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: fontColor
+              }
+            }
+          }
+        }
+      };
+
+      const supplierSummaryChartConfig = {
+        type: 'line',
+        data: {
+          labels: supplierSummaryLabels,
+          datasets: [{
+            label: 'Average Price',
+            data: supplierSummaryAvgPrices,
+            fill: false,
+            borderColor: 'rgba(79, 70, 229, 1)',
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: fontColor
+              },
+              grid: {
+                color: gridColor
+              }
+            },
+            x: {
+              ticks: {
+                color: fontColor
+              },
+              grid: {
+                color: gridColor
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: fontColor
+              }
+            }
+          }
+        }
+      };
+
+      const currencySummaryChartConfig = {
+        type: 'doughnut',
+        data: {
+          labels: currencySummaryLabels,
+          datasets: [{
+            label: 'Currency Distribution',
+            data: currencySummaryValues,
+            backgroundColor: [
+              'rgba(79, 70, 229, 0.7)',
+              'rgba(129, 140, 248, 0.7)',
+              'rgba(165, 180, 252, 0.7)'
+            ],
+            borderColor: [
+              'rgba(79, 70, 229, 1)',
+              'rgba(129, 140, 248, 1)',
+              'rgba(165, 180, 252, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: fontColor
+              }
+            }
+          }
+        }
+      };
+
+      const companySummaryChartConfig = {
+        type: 'pie',
+        data: {
+          labels: companySummaryLabels,
+          datasets: [{
+            label: 'Company Distribution',
+            data: companySummaryValues,
+            backgroundColor: [
+              'rgba(79, 70, 229, 0.7)',
+              'rgba(129, 140, 248, 0.7)',
+              'rgba(165, 180, 252, 0.7)'
+            ],
+            borderColor: [
+              'rgba(79, 70, 229, 1)',
+              'rgba(129, 140, 248, 1)',
+              'rgba(165, 180, 252, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: fontColor
+              }
+            }
+          }
+        }
+      };
+
+      // Create Charts
+      createChart('topSuppliersChart', topSuppliersChartConfig);
+      createChart('supplierSummaryChart', supplierSummaryChartConfig);
+      createChart('currencySummaryChart', currencySummaryChartConfig);
+      createChart('companySummaryChart', companySummaryChartConfig);
+    });
+    </script>
+</body>
+
+</html>
+```

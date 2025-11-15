@@ -1,0 +1,34 @@
+name: Deploy Model
+
+on:
+  workflow_run:
+    workflows: ["Train Model"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production # Or staging, depending on your setup
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Build Docker image
+        run: docker build -t ml-api:latest .
+      - name: Deploy Model (Placeholder for actual deployment)
+        run: |
+          echo "Simulating deployment of ml-api:latest to production..."
+          # In a real scenario, you would push this image to a container registry
+          # and then deploy it to your target environment (e.g., Kubernetes, Azure Container Instances, AWS ECS).
+          # Example:
+          # docker push your-registry/ml-api:latest
+          # kubectl apply -f kubernetes-deployment.yaml
+          echo "Model deployment simulated successfully!"
